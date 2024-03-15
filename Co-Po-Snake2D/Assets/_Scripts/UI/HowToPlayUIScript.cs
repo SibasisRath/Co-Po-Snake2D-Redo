@@ -1,8 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Events;
 
 public class HowToPlayUIScript : MonoBehaviour
 {
@@ -28,27 +26,9 @@ public class HowToPlayUIScript : MonoBehaviour
         rightButton.gameObject.SetActive(true);
         backButton.gameObject.SetActive(true);
 
-        SetUpButton(leftButton,LeftButtonClicked);
-        SetUpButton(rightButton, RightButtonClicked);
-        SetUpButton(backButton, BackButtonClicked);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    private void SetUpButton(Button button, UnityAction unityAction)
-    {
-        if (button != null)
-        {
-            button.onClick.AddListener(()=> { unityAction?.Invoke(); });
-        }
-        else
-        {
-            Debug.Log($"error: {button} reference is null.");
-        }
+        ButtonSetUpHelper.SetUpButton(leftButton,LeftButtonClicked);
+        ButtonSetUpHelper.SetUpButton(rightButton, RightButtonClicked);
+        ButtonSetUpHelper.SetUpButton(backButton, BackButtonClicked);
     }
 
     private void BackButtonClicked()
