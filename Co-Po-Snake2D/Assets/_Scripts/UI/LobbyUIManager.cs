@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Events;
 
 public class LobbyUIManager : MonoBehaviour
 {
@@ -27,22 +24,9 @@ public class LobbyUIManager : MonoBehaviour
         quitButton.gameObject.SetActive(true);
         settingsButton.gameObject.SetActive(true);
 
-        SetUpButton(playButton, PlayButtonClicked);
-        SetUpButton(settingsButton, SettingsButtonClicked);
-        SetUpButton(quitButton, QuitButtonClicked);
-    }
-
-    public void SetUpButton(Button button, UnityAction unityAction)
-    {
-        if (button != null)
-        {
-            //Sound
-            button.onClick.AddListener(()=> { unityAction?.Invoke(); });
-        }
-        else
-        {
-            Debug.Log($"error: {button} is null.");
-        }
+        ButtonSetUpHelper.SetUpButton(playButton, PlayButtonClicked);
+        ButtonSetUpHelper.SetUpButton(settingsButton, SettingsButtonClicked);
+        ButtonSetUpHelper.SetUpButton(quitButton, QuitButtonClicked);
     }
 
     public void QuitButtonClicked()
@@ -54,14 +38,12 @@ public class LobbyUIManager : MonoBehaviour
     public void PlayButtonClicked()
     {
         mainPannel.SetActive(false);
-        playModeSelectorPannel.SetActive(true);
-        
+        playModeSelectorPannel.SetActive(true); 
     }
+
     public void SettingsButtonClicked()
     {
         mainPannel.SetActive(false);
         settingsPannel.SetActive(true);
     }
-
-
 }

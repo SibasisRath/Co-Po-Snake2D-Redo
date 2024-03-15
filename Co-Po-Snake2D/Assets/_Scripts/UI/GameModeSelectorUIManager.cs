@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Events;
 
 public class GameModeSelectorUIManager : MonoBehaviour
 {
@@ -25,22 +24,9 @@ public class GameModeSelectorUIManager : MonoBehaviour
         singleModeButton.gameObject.SetActive(true);
         copoModeButton.gameObject.SetActive(true);
 
-        SetUpButton(backToMainButton, BackToMainButtonIsClicked);
-        SetUpButton(singleModeButton, SingleModeButtonIsClicked);
-        SetUpButton(copoModeButton, CopoModeButtonIsClicked);
-    }
-
-    public void SetUpButton(Button button, UnityAction unityAction)
-    {
-        if (button != null)
-        {
-            //Sound
-            button.onClick.AddListener(() => { unityAction?.Invoke(); });
-        }
-        else
-        {
-            Debug.Log($"error: {button} is null.");
-        }
+        ButtonSetUpHelper.SetUpButton(backToMainButton, BackToMainButtonIsClicked);
+        ButtonSetUpHelper.SetUpButton(singleModeButton, SingleModeButtonIsClicked);
+        ButtonSetUpHelper.SetUpButton(copoModeButton, CopoModeButtonIsClicked);
     }
 
     private void BackToMainButtonIsClicked()

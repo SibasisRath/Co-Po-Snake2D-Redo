@@ -1,10 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
-using UnityEngine.Events;
-using System;
 using TMPro;
 
 public class InGameUIManager : MonoBehaviour
@@ -24,9 +19,9 @@ public class InGameUIManager : MonoBehaviour
         panel.SetActive(false);
         mainMessage.gameObject.SetActive(false);
         description.gameObject.SetActive(false);
-        SetUpButton(mainButton, BackToMainButtonClicked);
-        SetUpButton(restartButton, RestartButtonClicked);
-        SetUpButton(resumeButton, ResumeButtonClicked);
+        ButtonSetUpHelper.SetUpButton(mainButton, BackToMainButtonClicked);
+        ButtonSetUpHelper.SetUpButton(restartButton, RestartButtonClicked);
+        ButtonSetUpHelper.SetUpButton(resumeButton, ResumeButtonClicked);
         mainButton.gameObject.SetActive(false);
         restartButton.gameObject.SetActive(false);
         resumeButton.gameObject.SetActive(false);
@@ -38,26 +33,9 @@ public class InGameUIManager : MonoBehaviour
         {
             OnPause();
         }
-
         if (GameHandler.State == GameStates.GameOver)
         {
             OnGameOver();
-        }
-
-    }
-
-    private void SetUpButton(Button button, UnityAction unityAction)
-    {
-        if (button != null)
-        {
-            button.onClick.AddListener(() => {
-                //SoundManager.Instance.Play(Sounds.ButtonClick);
-                unityAction?.Invoke();
-            });
-        }
-        else
-        {
-            Debug.Log($"{button} is null.");
         }
     }
 
@@ -70,7 +48,6 @@ public class InGameUIManager : MonoBehaviour
     {
         SceneManagerScript.Instance.SceneLoading(ScenesEnum.MainScene);
     }
-
 
     private void ResumeButtonClicked()
     {

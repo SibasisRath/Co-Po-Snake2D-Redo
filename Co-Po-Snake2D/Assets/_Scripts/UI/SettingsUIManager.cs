@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Events;
 
 public class SettingsUIManager : MonoBehaviour
 {
@@ -34,8 +31,8 @@ public class SettingsUIManager : MonoBehaviour
         howToPlayPanel.SetActive(false);
 
         //button setup
-        SetUpButton(backToMainButton, BackToMainButtonClicked);
-        SetUpButton(howToPlayButton, HowToPlayButtonClicked);
+        ButtonSetUpHelper.SetUpButton(backToMainButton, BackToMainButtonClicked);
+        ButtonSetUpHelper.SetUpButton(howToPlayButton, HowToPlayButtonClicked);
     }
 
     // Update is called once per frame
@@ -43,19 +40,6 @@ public class SettingsUIManager : MonoBehaviour
     {
         backGroundSoundSlider.onValueChanged.AddListener((float value) => { soundInfo.BackGroundSound = backGroundSoundSlider.value;});
         soundEffectSlider.onValueChanged.AddListener((float value) => { soundInfo.SoundEffect = soundEffectSlider.value; });
-    }
-
-    public void SetUpButton(Button button, UnityAction unityAction)
-    {
-        if (button != null)
-        {
-            //Sound
-            button.onClick.AddListener(() => { unityAction?.Invoke(); });
-        }
-        else
-        {
-            Debug.Log($"error: {button} is null.");
-        }
     }
 
     private void BackToMainButtonClicked()
