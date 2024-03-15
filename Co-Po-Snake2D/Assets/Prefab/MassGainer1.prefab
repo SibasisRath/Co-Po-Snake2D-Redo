@@ -8,6 +8,42 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -7684487519530953453, guid: d131ec7eecb058e4bafa64e65c666ebb, type: 3}
+      propertyPath: m_Size.x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: -7684487519530953453, guid: d131ec7eecb058e4bafa64e65c666ebb, type: 3}
+      propertyPath: m_Size.y
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: -7684487519530953453, guid: d131ec7eecb058e4bafa64e65c666ebb, type: 3}
+      propertyPath: m_SpriteTilingProperty.pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -7684487519530953453, guid: d131ec7eecb058e4bafa64e65c666ebb, type: 3}
+      propertyPath: m_SpriteTilingProperty.pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -7684487519530953453, guid: d131ec7eecb058e4bafa64e65c666ebb, type: 3}
+      propertyPath: m_SpriteTilingProperty.newSize.x
+      value: 10.666667
+      objectReference: {fileID: 0}
+    - target: {fileID: -7684487519530953453, guid: d131ec7eecb058e4bafa64e65c666ebb, type: 3}
+      propertyPath: m_SpriteTilingProperty.newSize.y
+      value: 10.666667
+      objectReference: {fileID: 0}
+    - target: {fileID: -7684487519530953453, guid: d131ec7eecb058e4bafa64e65c666ebb, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 10.666667
+      objectReference: {fileID: 0}
+    - target: {fileID: -7684487519530953453, guid: d131ec7eecb058e4bafa64e65c666ebb, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 10.666667
+      objectReference: {fileID: 0}
+    - target: {fileID: -7684487519530953453, guid: d131ec7eecb058e4bafa64e65c666ebb, type: 3}
+      propertyPath: m_SpriteTilingProperty.adaptiveTilingThreshold
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 2978224798612584026, guid: d131ec7eecb058e4bafa64e65c666ebb, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -75,6 +111,10 @@ PrefabInstance:
     - target: {fileID: 8135431124835543252, guid: d131ec7eecb058e4bafa64e65c666ebb, type: 3}
       propertyPath: m_Name
       value: MassGainer1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8135431124835543252, guid: d131ec7eecb058e4bafa64e65c666ebb, type: 3}
+      propertyPath: m_TagString
+      value: Food
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -15,8 +15,8 @@ public class Snake : MonoBehaviour
     private LevelGrid levelGrid; // Reference to Grid. This is to interact with consumable
     [SerializeField] private PlayerScore playerScore;
 
-    private FoodScript foodScript;
-    private GameObject powerUp;
+   /* private FoodScript foodScript;
+    private GameObject powerUp;*/
 
     public void LevelGridSetUp(LevelGrid levelGrid){this.levelGrid = levelGrid;}
 
@@ -28,9 +28,9 @@ public class Snake : MonoBehaviour
 
     //powerups activation variables
     private bool canDie;
-    private int speedMultiplier = 1;
+   /* private int speedMultiplier = 1;
     private int foodScoreMultplier = 1;
-    float defaultSpeed;
+    float defaultSpeed;*/
 
 
     public Directions Direction { get => direction; set => direction = value; }
@@ -45,7 +45,7 @@ public class Snake : MonoBehaviour
         snakeBodySize = 0;
         snakeMovePositionLIst = new List<Vector2Int>();
         snakeBodyPartsList = new List<SnakeBodyPart>();
-        defaultSpeed = timer.Speed;
+       // defaultSpeed = timer.Speed;
     }
 
     private void Start()
@@ -98,7 +98,7 @@ public class Snake : MonoBehaviour
 
             snakeGridPosition = levelGrid.ValidateGridPosition(snakeGridPosition); //This is a part of the screen wrapping feature.
 
-            bool snakeAteFood = levelGrid.CheckSnakeAteFood(snakeGridPosition, out foodScript);
+           /* bool snakeAteFood = levelGrid.CheckSnakeAteFood(snakeGridPosition, out foodScript);
 
             if (snakeAteFood)
             {
@@ -128,7 +128,7 @@ public class Snake : MonoBehaviour
                     GameHandler.GameResult = (deathVarification.Item2, player);
                     GameHandler.State = GameStates.GameOver;
                 }
-            }
+            }*/
         }
         transform.position = new Vector3(snakeGridPosition.x, snakeGridPosition.y);
         transform.eulerAngles = new Vector3(0,0,HandleRotation(gridMoveDirection) - 90f);
@@ -187,7 +187,7 @@ public class Snake : MonoBehaviour
         return entireSnake;
     }
 
-    private IEnumerator PowerUpTime(GameObject powerUp)
+   /* private IEnumerator PowerUpTime(GameObject powerUp)
     {
         Debug.Log("entered power Up coroutine");
         GameObject activePowerUp = powerUp;
@@ -214,5 +214,5 @@ public class Snake : MonoBehaviour
         CanDie = true;
         timer.Speed = defaultSpeed;
         
-    }
+    }*/
 }

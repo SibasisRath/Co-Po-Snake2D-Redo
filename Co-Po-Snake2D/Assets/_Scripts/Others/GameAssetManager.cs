@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GameAssetManager : MonoBehaviour
@@ -8,11 +6,21 @@ public class GameAssetManager : MonoBehaviour
     private const int totalNumberOfMassGainerFoods = 2;
     private const int totalNumberOfFoods = 4;
     private const int totalNumberOfPowerUps = 3;
-    public static GameAssetManager instance;
+    private static GameAssetManager instance;
+
+    public static GameAssetManager Instance { get => instance; set => instance = value; }
 
     private void Awake()
     {
-        instance = this;
+
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     [Header("Foods")]
@@ -29,12 +37,14 @@ public class GameAssetManager : MonoBehaviour
 
     [Space]
     [Header("SnakeBodyParts")]
-    [SerializeField] private GameObject snakeHead1;
-    [SerializeField] private GameObject snakeBodyPart1;
-    [SerializeField] private GameObject snakeHead2;
-    [SerializeField] private GameObject snakeBodyPart2;
+    [SerializeField] private GameObject snakeHeadPlayer1;
+    [SerializeField] private GameObject snakeBodyPartPlayer1;
+    [SerializeField] private GameObject snakeHeadPlayer2;
+    [SerializeField] private GameObject snakeBodyPartPlayer2;
 
-    public GameObject GetAssetGameObject(InGameSprites spriteName)
+
+    //This function will be responsible for returning any kind of sprite game object. Because there are different type of sprites So there are different public functions are there in this script.
+    private GameObject GetAssetGameObject(InGameSprites spriteName)
     {
         GameObject resultObject;
         switch (spriteName)
@@ -60,11 +70,11 @@ public class GameAssetManager : MonoBehaviour
             case InGameSprites.SpeedBoostPowerUp:
                 resultObject = Instantiate(speedBoostPowerUp);
                 break;
-            case InGameSprites.SnakeBodySegment1:
-                resultObject = Instantiate(snakeBodyPart1);
+            case InGameSprites.SnakeBodySegmentPlayer1:
+                resultObject = Instantiate(snakeBodyPartPlayer1);
                 break;
-            case InGameSprites.SnakeBodySegment2:
-                resultObject = Instantiate(snakeBodyPart2);
+            case InGameSprites.SnakeBodySegmentPlayer2:
+                resultObject = Instantiate(snakeBodyPartPlayer2);
                 break;
             default:
                 resultObject = null;
@@ -76,6 +86,10 @@ public class GameAssetManager : MonoBehaviour
         return resultObject;
     }
 
+
+    //According to the instruction there are 2 types of food should be implemented. (i) Mass gainer and (ii) mass burner.
+    //In my Project I have taken 2 types of mass gainer and 2 types of mass burner with different masses can be gained and burnt.
+    //yes, The values of the foods are flexible. These can be changed at any time.
     public GameObject GetFoodObject(int snakeSize)
     {
         GameObject foodObject;
@@ -133,5 +147,23 @@ public class GameAssetManager : MonoBehaviour
                 break;
         }
         return powerUp;
+    }
+
+    public GameObject GetSnakeBodyPart(PlayerEnum player) 
+    {
+        GameObject snakeBody;
+        if (player == PlayerEnum.Player1)
+        {
+            snakeBody = GetAssetGameObject(InGameSprites.SnakeBodySegmentPlayer1);
+        }
+        else if (player == PlayerEnum.Player2)
+        {
+            snakeBody = GetAssetGameObject(InGameSprites.SnakeBodySegmentPlayer2);
+        }
+        else
+        {
+            snakeBody = null;
+        }
+        return snakeBody;
     }
 }

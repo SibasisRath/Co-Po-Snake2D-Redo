@@ -73,7 +73,7 @@ public class LevelGrid
        
         Vector2Int foodGridPosition = SpawnlocationFinder();
 
-        food = GameAssetManager.instance.GetFoodObject(snakes.Min(snake => snake.SnakeBodySize));
+        food = GameAssetManager.Instance.GetFoodObject(snakes.Min(snake => snake.SnakeBodySize));
         food.transform.position = new Vector3(foodGridPosition.x, foodGridPosition.y);
         foodGameObjects.Add(food);
     }
@@ -81,7 +81,7 @@ public class LevelGrid
     public void SpawnPowerUps()
     {
         Vector2Int powerUpGridPosition = SpawnlocationFinder();
-        powerUps = GameAssetManager.instance.GetPowerUp();
+        powerUps = GameAssetManager.Instance.GetPowerUp();
         powerUps.transform.position = new Vector3(powerUpGridPosition.x, powerUpGridPosition.y);
         powerUpsGameObjects.Add(powerUps);
     }
