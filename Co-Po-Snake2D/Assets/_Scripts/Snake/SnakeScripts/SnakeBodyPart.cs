@@ -8,14 +8,7 @@ public class SnakeBodyPart
 
    public SnakeBodyPart(int bodyIndex, PlayerEnum player)
     {
-        if (player == PlayerEnum.Player1)
-        {
-            snakeBodyGameObject = GameAssetManager.instance.GetAssetGameObject(InGameSprites.SnakeBodySegment1);
-        }
-        if (player == PlayerEnum.Player2)
-        {
-            snakeBodyGameObject = GameAssetManager.instance.GetAssetGameObject(InGameSprites.SnakeBodySegment2);
-        }
+        snakeBodyGameObject = GameAssetManager.Instance.GetSnakeBodyPart(player);
 
         snakeBodyGameObject.GetComponent<SpriteRenderer>().sortingOrder = -bodyIndex;
         transform = snakeBodyGameObject.transform;
