@@ -137,17 +137,17 @@ public class Snake : MonoBehaviour
 
     private float HandleRotation(Vector2Int dir)
     {
+        const int rotationAdjustment = 360;
         float n = Mathf.Atan2(dir.y,dir.x) * Mathf.Rad2Deg;
         if (n<0)
         {
-            n += 360;
+            n += rotationAdjustment;
         }
         return n;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log($"collision happen with : {collision.gameObject.name}");
         ScreenWrapping(collision);
     }
 
