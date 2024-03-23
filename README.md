@@ -5,11 +5,18 @@ Outscal unity Mat1 project
 
 Core Functionalities:</br>
 1. Snake will be able to change directions with help of arrow keys or WASD keys.</br>
-2. Screen Wrapping for all direction
-3. Snake will die after biting itself.
-4. Snake will grow after eating food.
+![Screenshot (16)](https://github.com/SibasisRath/Co-Po-Snake2D-Redo/assets/57254317/90c49b48-c302-4ff9-b1db-f9ab454f6706)
+
+2. Screen Wrapping for all direction. </br>
+3. Snake will die after biting itself. </br>
+![Screenshot (20)](https://github.com/SibasisRath/Co-Po-Snake2D-Redo/assets/57254317/f9584a4f-546d-436d-a809-d4168127f3a8)
+
+4. Snake will grow after eating food.</br>
+![Screenshot (21)](https://github.com/SibasisRath/Co-Po-Snake2D-Redo/assets/57254317/d5271999-2d4e-42a7-be3c-606dfebf10f0)
 
 Power Ups:</br>
+![Screenshot (26)](https://github.com/SibasisRath/Co-Po-Snake2D-Redo/assets/57254317/94f040c6-7f6e-40bd-8113-2c271fc23578)
+
 1. Implement 3 Power-Ups
     i. Shield → Snake will have a shield and the snake will not die when the shield is active.
     ii. Score Boost → Snake will gain 2x Score Points for each mass-gainer food.
