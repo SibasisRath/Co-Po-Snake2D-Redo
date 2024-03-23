@@ -6,23 +6,16 @@ public class SnakeDeathScript : MonoBehaviour
     private PlayerEnum player;
     //powerups activation variables
     private bool canDie;
-    public bool CanDie
-    {
-        get => canDie;
-        set 
-        {
-            canDie = value;
-            Debug.Log($"can die: {canDie}");
-        }
-    }
+    public bool CanDie { get => canDie; set => canDie = value; }
+
     private void Awake()
     {
-        canDie = true;
+        CanDie = true;
         player = snake.Player;
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if ((collision.gameObject.CompareTag("Player1") || collision.gameObject.CompareTag("Player2")) && collision.gameObject.tag != snake.gameObject.tag)
+        if ((collision.gameObject.CompareTag(PlayerEnum.Player1.ToString()) || collision.gameObject.CompareTag(PlayerEnum.Player2.ToString())) && collision.gameObject.tag != snake.gameObject.tag)
         {
             return;
         }
@@ -37,16 +30,19 @@ public class SnakeDeathScript : MonoBehaviour
 
         if (otherSnake != null)
         {
+            bool isItASuicide = false; //default value
+
             if (otherSnake.Player != player && otherSnake.gameObject.GetComponent<SnakeDeathScript>().CanDie) // Player hit opponent
             {
-                GameHandler.GameResult = (false, player);
-                GameStateManager.GameState = GameStates.GameOver;
+                isItASuicide = false;
             }
             else if (otherSnake.Player == player && CanDie) // Player hit itself
             {
-                GameHandler.GameResult = (true, player);
-                GameStateManager.GameState = GameStates.GameOver;
+                isItASuicide = true;
             }
+
+            GameHandler.GameResult = (isItASuicide, player);
+            GameStateManager.GameState = GameStates.GameOver;
         }
     }
 

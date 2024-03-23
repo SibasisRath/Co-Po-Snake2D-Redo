@@ -8,9 +8,6 @@ public class FoodScript : MonoBehaviour
     [SerializeField] private int bodyGrow;
     [SerializeField] private float foodLifeTime = 7f;
 
-    public int Score { get => score; }
-    public int BodyGrow { get => bodyGrow;}
-
     private void Start()
     {
         StartCoroutine(FoodLifeTime());
