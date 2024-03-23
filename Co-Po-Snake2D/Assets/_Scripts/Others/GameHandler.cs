@@ -1,107 +1,76 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GameHandler : MonoBehaviour
 {
-    private const float minFoodSpawnInterval = 5f;
-    private const float maxFoodSpawnInterval = 10f;
-    private const float minPowerUpSpawnInterval = 7f;
-    private const float maxPowerUpSpawnInterval = 10f;
     private static GameHandler instance;
-
-    private static GameStates state;
     private static GameModes mode;
-    [SerializeField] private GameModeManager modeManager;
-    [SerializeField] private Snake snakeReferenceOne;
-    [SerializeField] private Snake snakeReferenceTwo;
-    private LevelGrid levelGrid;
 
-    private static (bool, PlayerEnum) gameResult;
+    private int playerOneSize = 0;
+    private int playerTwoSize = 0;
+    private int currentMinimumSize = 0;
 
-    public static GameStates State { get => state; set => state = value; }
-    public static GameModes Mode { get => mode; private set => mode = value; }
+    private static (bool, PlayerEnum) gameResult; //Here the boolean represents the is it a suicide or not and the player enum represents who did it
+
+    public static GameModes Mode { get => mode; set => mode = value; }
     public static (bool, PlayerEnum) GameResult { get => gameResult; set => gameResult = value; }
     public static GameHandler Instance { get => instance; set => instance = value; }
-
+    public int CurrentMinimumSize { get => currentMinimumSize; private set => currentMinimumSize = value; }
 
     private void Awake()
     {
-        Mode = modeManager.GameMode;
-        Debug.Log(Mode);
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        Debug.Log("Game started");
-        State = GameStates.Start;
-
-        levelGrid = new LevelGrid(200,200, 10);
-
-       
-
-        snakeReferenceOne.LevelGridSetUp(levelGrid);
-        levelGrid.SnakeSetUp(snakeReferenceOne);
-
-        if (Mode == GameModes.SinglePlayer)
+        DontDestroyOnLoad(gameObject);
+        if (Instance == null)
         {
-            snakeReferenceTwo.gameObject.SetActive(false);
+            Instance = this;
         }
-        else if (Mode == GameModes.CopoPlayer)
+        else
         {
-            snakeReferenceTwo.gameObject.SetActive(true);
-            snakeReferenceTwo.LevelGridSetUp(levelGrid);
-            levelGrid.SnakeSetUp(snakeReferenceTwo);
-        }
-
-
-        levelGrid.SpawnFood();
-        levelGrid.SpawnPowerUps();
-        StartCoroutine(FoodSpawnCoroutine());
-        StartCoroutine(PowerUpSpawnCoroutine());
-    }
-
-    private IEnumerator FoodSpawnCoroutine()
-    {
-        while (true)
-        {
-            // Wait for a random interval before attempting to spawn food
-            float randomInterval = Random.Range(minFoodSpawnInterval, maxFoodSpawnInterval);
-            yield return new WaitForSeconds(randomInterval);
-
-            // Check if the game is not paused before spawning food
-            if (State != GameStates.Pause && State != GameStates.GameOver)
-            {
-                levelGrid.SpawnFood();
-            }
+            Destroy(gameObject);
         }
     }
 
-    private IEnumerator PowerUpSpawnCoroutine()
+    public void UpdateMinimumSnakeSize(int size, PlayerEnum player)
     {
-        while (true)
-        {
-            // Wait for a random interval before attempting to spawn food
-            float randomInterval = Random.Range(minPowerUpSpawnInterval, maxPowerUpSpawnInterval);
-            yield return new WaitForSeconds(randomInterval);
+        AssigningPlayerSizes(size, player);
 
-            // Check if the game is not paused before spawning food
-            if (State != GameStates.Pause && State != GameStates.GameOver)
-            {
-                levelGrid.SpawnPowerUps();
-            }
+        switch (mode)
+        {
+            case GameModes.SinglePlayer:
+                CurrentMinimumSize = playerOneSize;
+                break;
+            case GameModes.CopoPlayer:
+                GettingMinimumSnakeSize();
+                break;
+            default:
+                break;
         }
     }
 
-    private void Update()
+    private void GettingMinimumSnakeSize()
     {
-
-        if (State != GameStates.Pause & Input.GetKeyDown(KeyCode.P)) // visual instruction is given in the game.
+        if (playerOneSize > playerTwoSize)
         {
-            State = GameStates.Pause;
+            CurrentMinimumSize = playerTwoSize;
         }
+        else if (playerOneSize < playerTwoSize)
+        {
+            CurrentMinimumSize = playerOneSize;
+        }
+        else
+        {
+            CurrentMinimumSize = playerOneSize;
+        }
+    }
 
-        levelGrid.DestroyFood();
+    private void AssigningPlayerSizes(int size, PlayerEnum player)
+    {
+        if (player == PlayerEnum.Player1)
+        {
+            playerOneSize = size;
+        }
+        else if (player == PlayerEnum.Player2)
+        {
+            playerTwoSize = size;
+        }
     }
 }

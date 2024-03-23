@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class GameAssetManager : MonoBehaviour
 {
-    private const int snakeSmallBidyLimit = 5;
+    private const int snakeSmallBodyLimit = 5;
     private const int totalNumberOfMassGainerFoods = 2;
     private const int totalNumberOfFoods = 4;
     private const int totalNumberOfPowerUps = 3;
@@ -12,7 +12,7 @@ public class GameAssetManager : MonoBehaviour
 
     private void Awake()
     {
-
+        DontDestroyOnLoad(gameObject);
         if (Instance == null)
         {
             Instance = this;
@@ -70,8 +70,14 @@ public class GameAssetManager : MonoBehaviour
             case InGameSprites.SpeedBoostPowerUp:
                 resultObject = Instantiate(speedBoostPowerUp);
                 break;
+            case InGameSprites.SnakeHeadPlayer1:
+                resultObject = Instantiate(snakeHeadPlayer1);
+                break;
             case InGameSprites.SnakeBodySegmentPlayer1:
                 resultObject = Instantiate(snakeBodyPartPlayer1);
+                break;
+            case InGameSprites.SnakeHeadPlayer2:
+                resultObject = Instantiate(snakeHeadPlayer2);
                 break;
             case InGameSprites.SnakeBodySegmentPlayer2:
                 resultObject = Instantiate(snakeBodyPartPlayer2);
@@ -86,6 +92,28 @@ public class GameAssetManager : MonoBehaviour
         return resultObject;
     }
 
+    public GameObject GetSnakeBodyPart(InGameSprites snakeBody) 
+    {
+        return GetAssetGameObject(snakeBody);
+    }
+
+    public GameObject GetSnakeHeadPart(PlayerEnum player)
+    {
+        GameObject snake;
+        if (player == PlayerEnum.Player1)
+        {
+            snake = GetAssetGameObject(InGameSprites.SnakeHeadPlayer1);
+        }
+        else if (player == PlayerEnum.Player2)
+        {
+            snake = GetAssetGameObject(InGameSprites.SnakeHeadPlayer2);
+        }
+        else
+        {
+            snake = null;
+        }
+        return snake;
+    }
 
     //According to the instruction there are 2 types of food should be implemented. (i) Mass gainer and (ii) mass burner.
     //In my Project I have taken 2 types of mass gainer and 2 types of mass burner with different masses can be gained and burnt.
@@ -93,7 +121,7 @@ public class GameAssetManager : MonoBehaviour
     public GameObject GetFoodObject(int snakeSize)
     {
         GameObject foodObject;
-        if (snakeSize < snakeSmallBidyLimit)
+        if (snakeSize < snakeSmallBodyLimit)
         {
             int a = Random.Range(0, totalNumberOfMassGainerFoods);
             foodObject = (a == 0) ? GetAssetGameObject(InGameSprites.MassGainer1) : GetAssetGameObject(InGameSprites.MassGainer2);
@@ -120,7 +148,7 @@ public class GameAssetManager : MonoBehaviour
                     Debug.Log("Food error.");
                     break;
             }
-            
+
         }
         foodObject.transform.SetParent(gameObject.transform);
         return foodObject;
@@ -147,23 +175,5 @@ public class GameAssetManager : MonoBehaviour
                 break;
         }
         return powerUp;
-    }
-
-    public GameObject GetSnakeBodyPart(PlayerEnum player) 
-    {
-        GameObject snakeBody;
-        if (player == PlayerEnum.Player1)
-        {
-            snakeBody = GetAssetGameObject(InGameSprites.SnakeBodySegmentPlayer1);
-        }
-        else if (player == PlayerEnum.Player2)
-        {
-            snakeBody = GetAssetGameObject(InGameSprites.SnakeBodySegmentPlayer2);
-        }
-        else
-        {
-            snakeBody = null;
-        }
-        return snakeBody;
     }
 }

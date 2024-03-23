@@ -3,10 +3,16 @@ using TMPro;
 
 public class PlayerScore : MonoBehaviour
 {
+    private const int scoreMultipler = 1;
+    private const int scoreMultiplerWithPowerUp = 2;
     private int score;
-    [SerializeField] private TextMeshProUGUI playerScore;
+    private TextMeshProUGUI playerScoreText;
+
+    private bool scoreBoostPowerUpIsActivated;
 
     public int Score { get => score; }
+    public TextMeshProUGUI PlayerScoreText { get => playerScoreText; set => playerScoreText = value; }
+    public bool ScoreBoostPowerUpIsActivated { get => scoreBoostPowerUpIsActivated; set => scoreBoostPowerUpIsActivated = value; }
 
     private void Start()
     {
@@ -14,15 +20,25 @@ public class PlayerScore : MonoBehaviour
         UpdateUI();
     }
 
-    public void UpdateScore(int score)
+    public void UpdateScore(int additionalScore)
     {
-        this.score += score;
+        //This is because if the score boost power up is activated it will only increase the score value 2x for mass gainer food
+        //according to the instruction.
+        if (ScoreBoostPowerUpIsActivated && additionalScore > 0)
+        {
+             additionalScore *= scoreMultiplerWithPowerUp;
+        }
+        else
+        {
+            additionalScore *= scoreMultipler;
+        }
+        score += additionalScore;
         UpdateUI();
         Debug.Log(Score);
     }
 
     private void UpdateUI()
     {
-        playerScore.text = "Player Score\n" + score;
+        PlayerScoreText.text = "Player Score\n" + score;
     }
 }

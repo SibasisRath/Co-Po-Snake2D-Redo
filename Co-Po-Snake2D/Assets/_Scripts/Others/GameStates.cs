@@ -1,7 +1,6 @@
 public enum GameStates
 {
-    Start,
+    Running,
     GameOver,
-    Pause,
-    Resume
+    Pause
 }

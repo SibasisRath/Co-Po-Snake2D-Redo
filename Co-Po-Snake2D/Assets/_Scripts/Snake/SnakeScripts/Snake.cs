@@ -1,63 +1,64 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class Snake : MonoBehaviour
 {
     [SerializeField] private PlayerEnum player;
+    [SerializeField] private InGameSprites snakeBody;
 
-    [SerializeField] private Timer timer; // Reference to timer
+    [SerializeField] private SnakeTimer timer; // Reference to timer
     [SerializeField] private Vector2Int snakeGridPosition; //Snake position on grid
     [SerializeField] private int gridUnit; // This is the length snake will move each time
     private Vector2Int gridMoveDirection; // This will help to change direction
     private Directions direction; // this will be the all the allowed direction
-    private LevelGrid levelGrid; // Reference to Grid. This is to interact with consumable
-    [SerializeField] private PlayerScore playerScore;
 
-   /* private FoodScript foodScript;
-    private GameObject powerUp;*/
-
-    public void LevelGridSetUp(LevelGrid levelGrid){this.levelGrid = levelGrid;}
+    [SerializeField] private int gridShift = 195;
 
     private int snakeBodySize;
+    private int additionalSnakeBodySize;
     private List<Vector2Int> snakeMovePositionLIst; // store the positions of the snake body parts
     private List<SnakeBodyPart> snakeBodyPartsList;
 
-    private SnakeStates snakeState;
-
-    //powerups activation variables
-    private bool canDie;
-   /* private int speedMultiplier = 1;
-    private int foodScoreMultplier = 1;
-    float defaultSpeed;*/
-
+    
 
     public Directions Direction { get => direction; set => direction = value; }
-    public int SnakeBodySize { get => snakeBodySize;}
-    public SnakeStates SnakeState { get => snakeState; set => snakeState = value; }
-    public bool CanDie { get => canDie; set => canDie = value; }
     public PlayerEnum Player { get => player;}
+    public InGameSprites SnakeBody { get => snakeBody; }
+    public Vector2Int SnakeGridPosition { get => snakeGridPosition; set => snakeGridPosition = value; }
+    public int SnakeBodySize
+    {
+        get => snakeBodySize;
+        private set
+        {
+            snakeBodySize = value;
+            GameHandler.Instance.UpdateMinimumSnakeSize(snakeBodySize, player);
+        }
+    }
+    public int AdditionalSnakeBodySize 
+    {
+        get => additionalSnakeBodySize;
+        set
+        {
+            additionalSnakeBodySize = value;
+            SnakeBodySize += additionalSnakeBodySize;
+            CreateSnakeBody(additionalSnakeBodySize);
+        }
+    }
+
+    public List<SnakeBodyPart> SnakeBodyPartsList { get => snakeBodyPartsList; set => snakeBodyPartsList = value; }
 
     private void Awake()
     {
         gridMoveDirection = new Vector2Int(0, gridUnit); //initial movement
-        snakeBodySize = 0;
+        SnakeBodySize = 0;
         snakeMovePositionLIst = new List<Vector2Int>();
-        snakeBodyPartsList = new List<SnakeBodyPart>();
-       // defaultSpeed = timer.Speed;
-    }
-
-    private void Start()
-    {
-        SnakeState = SnakeStates.Alive;
-        CanDie = true;
+        SnakeBodyPartsList = new List<SnakeBodyPart>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if ((GameHandler.State == GameStates.Start || GameHandler.State == GameStates.Resume) && SnakeState == SnakeStates.Alive)
+        if (GameStateManager.GameState == GameStates.Running)
         {
             HandelDirection();
             HandleMovement();
@@ -90,47 +91,20 @@ public class Snake : MonoBehaviour
 
     private void HandleMovement()
     {
-        if (timer.CanPerform)
+        if (timer.CanMove)
         {
-            timer.CanPerform = false;
-            snakeMovePositionLIst.Insert(0, snakeGridPosition);  //This will keep adding snakeHead's new grid postions at the beginning.
-            snakeGridPosition += gridMoveDirection; // this is for changing direction.
-
-            snakeGridPosition = levelGrid.ValidateGridPosition(snakeGridPosition); //This is a part of the screen wrapping feature.
-
-           /* bool snakeAteFood = levelGrid.CheckSnakeAteFood(snakeGridPosition, out foodScript);
-
-            if (snakeAteFood)
-            {
-                snakeBodySize += foodScript.BodyGrow;
-                playerScore.UpdateScore(foodScript.Score * foodScoreMultplier);
-                CreateSnakeBody(foodScript.BodyGrow);
-                Debug.Log(SnakeBodySize);
-            }
-
-            bool snakeAtePowerUp = levelGrid.CheckSnakeAtePowerUp(snakeGridPosition, out powerUp);
-            if (snakeAtePowerUp)
-            {
-                StartCoroutine(PowerUpTime(powerUp));
-            }
-            if (snakeMovePositionLIst.Count >= SnakeBodySize + 10)
-            {
-                snakeMovePositionLIst.RemoveAt(snakeMovePositionLIst.Count - 1);
-            }
-
-            if (CanDie)
-            {
-                (bool, bool) deathVarification = levelGrid.SnakeDeathCheck(snakeGridPosition, player);
-                if (deathVarification.Item1)
-                {
-                    SnakeState = SnakeStates.Dead;
-                    Debug.Log($"{player} is dead.");
-                    GameHandler.GameResult = (deathVarification.Item2, player);
-                    GameHandler.State = GameStates.GameOver;
-                }
-            }*/
+            timer.CanMove = false;
+            snakeMovePositionLIst.Insert(0, SnakeGridPosition);  //This will keep adding snakeHead's new grid postions at the beginning.
+            SnakeGridPosition += gridMoveDirection; // this is for changing direction.
+            
         }
-        transform.position = new Vector3(snakeGridPosition.x, snakeGridPosition.y);
+
+        if (snakeMovePositionLIst.Count >= SnakeBodySize + 10)
+        {
+            snakeMovePositionLIst.RemoveAt(snakeMovePositionLIst.Count - 1);
+        }
+
+        transform.position = new Vector3(SnakeGridPosition.x, SnakeGridPosition.y);
         transform.eulerAngles = new Vector3(0,0,HandleRotation(gridMoveDirection) - 90f);
         UpdateSnakeBody();
     }
@@ -143,21 +117,21 @@ public class Snake : MonoBehaviour
         {
             if (isGrowing)
             {
-                snakeBodyPartsList.Add(new SnakeBodyPart(snakeBodyPartsList.Count, player));
+                SnakeBodyPartsList.Add(new SnakeBodyPart(SnakeBodyPartsList.Count, this));
             }
             else
             {
-                snakeBodyPartsList[snakeBodyPartsList.Count - 1].DestroyGameObject();           
-                snakeBodyPartsList.RemoveAt(snakeBodyPartsList.Count -1);
+                SnakeBodyPartsList[SnakeBodyPartsList.Count - 1].DestroyGameObject();           
+                SnakeBodyPartsList.RemoveAt(SnakeBodyPartsList.Count -1);
             }   
         }   
     }
 
     private void UpdateSnakeBody()
     {
-        for (int i = 0; i < snakeBodyPartsList.Count; i++)
+        for (int i = 0; i < SnakeBodyPartsList.Count; i++)
         {
-            snakeBodyPartsList[i].SetGridPosition(snakeMovePositionLIst[i]);
+            SnakeBodyPartsList[i].SetGridPosition(snakeMovePositionLIst[i]);
         }
     }
 
@@ -171,48 +145,31 @@ public class Snake : MonoBehaviour
         return n;
     }
 
-    public Vector2Int GetSnakeGritPosition(){return snakeGridPosition;}
-
-    public List<Vector2Int> GetSnakePositions()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        List<Vector2Int> entireSnake = new List<Vector2Int>() { snakeGridPosition };
-        entireSnake.AddRange(snakeMovePositionLIst);
-        return entireSnake;
+        Debug.Log($"collision happen with : {collision.gameObject.name}");
+        ScreenWrapping(collision);
     }
 
-    public List<Vector2Int> GetSnakeBodyPositions()
+    private void ScreenWrapping(Collider2D collision)
     {
-        List<Vector2Int> entireSnake = new List<Vector2Int>();
-        entireSnake.AddRange(snakeBodyPartsList.Select<SnakeBodyPart, Vector2Int>(go => go.GetGridPosition()).ToList());
-        return entireSnake;
-    }
-
-   /* private IEnumerator PowerUpTime(GameObject powerUp)
-    {
-        Debug.Log("entered power Up coroutine");
-        GameObject activePowerUp = powerUp;
-        PowerUpScript powerScript = activePowerUp.GetComponent<PowerUpScript>();
-        InGameSprites powersprite = powerScript.PowerUpSprite;
-
-        switch (powersprite)
+        //Snake Screen Wrapping feature
+        if (collision.gameObject.CompareTag("RightBorder"))
         {
-            case InGameSprites.ScoreBoostPowerUp:
-                foodScoreMultplier = 2;
-                break;
-            case InGameSprites.ShieldPowerUp:
-                CanDie = false;
-                break;
-            case InGameSprites.SpeedBoostPowerUp:
-                speedMultiplier = 2;
-                timer.Speed *= speedMultiplier;
-                break;
-            default:
-                break;
+            snakeGridPosition.x -= gridShift;
         }
-        yield return new WaitForSeconds(powerScript.EffectiveTime);
-        foodScoreMultplier = 1;
-        CanDie = true;
-        timer.Speed = defaultSpeed;
-        
-    }*/
+        else if (collision.gameObject.CompareTag("UpBorder"))
+        {
+            snakeGridPosition.y -= gridShift;
+        }
+        else if (collision.gameObject.CompareTag("LeftBorder"))
+        {
+            snakeGridPosition.x += gridShift;
+        }
+        else if (collision.gameObject.CompareTag("DownBorder"))
+        {
+            snakeGridPosition.y += gridShift;
+        }
+        SnakeGridPosition = snakeGridPosition;
+    }
 }
