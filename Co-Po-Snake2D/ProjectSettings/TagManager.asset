@@ -10,6 +10,13 @@ TagManager:
   - SpeedBoostPowerUp
   - ScoreBoostPowerUp
   - ShieldPowerUp
+  - ShildPowerUp
+  - LeftBorder
+  - RightBorder
+  - UpBorder
+  - DownBorder
+  - Player1Body
+  - Player2Body
   layers:
   - Default
   - TransparentFX

@@ -6,12 +6,14 @@ public class SnakeBodyPart
     private Transform transform;
     private Vector2Int gridPosition;
 
-   public SnakeBodyPart(int bodyIndex, PlayerEnum player)
-    {
-        snakeBodyGameObject = GameAssetManager.Instance.GetSnakeBodyPart(player);
+    public GameObject SnakeBodyGameObject { get => snakeBodyGameObject; set => snakeBodyGameObject = value; }
 
-        snakeBodyGameObject.GetComponent<SpriteRenderer>().sortingOrder = -bodyIndex;
-        transform = snakeBodyGameObject.transform;
+    public SnakeBodyPart(int bodyIndex, Snake player)
+    {
+        SnakeBodyGameObject = GameAssetManager.Instance.GetSnakeBodyPart(player.SnakeBody);
+        SnakeBodyGameObject.transform.parent = player.transform;
+        SnakeBodyGameObject.GetComponent<SpriteRenderer>().sortingOrder = -bodyIndex;
+        transform = SnakeBodyGameObject.transform;
     }
 
     public void SetGridPosition(Vector2Int gridPosition)
@@ -27,7 +29,7 @@ public class SnakeBodyPart
 
     public void DestroyGameObject()
     {
-        GameObject.Destroy(this.snakeBodyGameObject);
+        GameObject.Destroy(this.SnakeBodyGameObject);
     }
 
 }

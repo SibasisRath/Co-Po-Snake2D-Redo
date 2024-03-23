@@ -14,17 +14,13 @@ public class SettingsUIManager : MonoBehaviour
     [Header("Button")]
     [SerializeField] private Button backToMainButton;
     [SerializeField] private Button howToPlayButton;
-    [Space]
-    [Header("Scriptable Object")]
-    [SerializeField] private SoundInfo soundInfo;
+
     // Start is called before the first frame update
     void Start()
     {
         // sound slider SetUp
         backGroundSoundSlider.gameObject.SetActive(true);
         soundEffectSlider.gameObject.SetActive(true);
-        backGroundSoundSlider.value = soundInfo.BackGroundSound;
-        soundEffectSlider.value = soundInfo.SoundEffect;
 
         // panel management
         mainPanel.SetActive(false);
@@ -34,14 +30,6 @@ public class SettingsUIManager : MonoBehaviour
         ButtonSetUpHelper.SetUpButton(backToMainButton, BackToMainButtonClicked);
         ButtonSetUpHelper.SetUpButton(howToPlayButton, HowToPlayButtonClicked);
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        backGroundSoundSlider.onValueChanged.AddListener((float value) => { soundInfo.BackGroundSound = backGroundSoundSlider.value;});
-        soundEffectSlider.onValueChanged.AddListener((float value) => { soundInfo.SoundEffect = soundEffectSlider.value; });
-    }
-
     private void BackToMainButtonClicked()
     {
         mainPanel.SetActive(true);

@@ -1,4 +1,5 @@
 public enum GameModes
 {
-    SinglePlayer, CopoPlayer
+    SinglePlayer,
+    CopoPlayer
 }

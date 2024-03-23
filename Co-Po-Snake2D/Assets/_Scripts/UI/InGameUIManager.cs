@@ -12,10 +12,9 @@ public class InGameUIManager : MonoBehaviour
     [SerializeField] private Button mainButton;
     [SerializeField] private Button restartButton;
     [SerializeField] private Button resumeButton;
-    
+
     private void Start()
     {
-        //gameHandler.State = GameStates.Start;
         panel.SetActive(false);
         mainMessage.gameObject.SetActive(false);
         description.gameObject.SetActive(false);
@@ -29,11 +28,15 @@ public class InGameUIManager : MonoBehaviour
 
     private void Update()
     {
-        if (GameHandler.State == GameStates.Pause)
+        if (GameStateManager.GameState == GameStates.Running)
+        {
+            panel.SetActive(false);
+        }
+        if (GameStateManager.GameState == GameStates.Pause)
         {
             OnPause();
         }
-        if (GameHandler.State == GameStates.GameOver)
+        if (GameStateManager.GameState == GameStates.GameOver)
         {
             OnGameOver();
         }
@@ -41,6 +44,7 @@ public class InGameUIManager : MonoBehaviour
 
     private void RestartButtonClicked()
     {
+        GameStateManager.GameState = GameStates.Running;
         SceneManagerScript.Instance.SceneLoading(ScenesEnum.GameScene);
     }
 
@@ -51,7 +55,7 @@ public class InGameUIManager : MonoBehaviour
 
     private void ResumeButtonClicked()
     {
-        GameHandler.State = GameStates.Resume;
+        GameStateManager.GameState = GameStates.Running;
         panel.SetActive(false);
         mainMessage.gameObject.SetActive(false);
         mainButton.gameObject.SetActive(false);
@@ -61,7 +65,7 @@ public class InGameUIManager : MonoBehaviour
 
     private void OnPause()
     {
-        GameHandler.State = GameStates.Pause;
+        GameStateManager.GameState = GameStates.Pause;
         panel.SetActive(true);
         mainMessage.gameObject.SetActive(true);
         mainMessage.text = "Pause";
@@ -72,13 +76,10 @@ public class InGameUIManager : MonoBehaviour
 
     private void OnGameOver()
     {
-        //GameHandler.State = GameStates.End;
         panel.SetActive(true);
         mainMessage.gameObject.SetActive(true);
         mainMessage.text = "GameOver";
         description.gameObject.SetActive(true);
-
-
 
         if (GameHandler.GameResult.Item1)
         {

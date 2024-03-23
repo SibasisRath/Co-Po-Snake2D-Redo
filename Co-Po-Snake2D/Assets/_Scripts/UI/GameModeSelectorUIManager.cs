@@ -10,14 +10,10 @@ public class GameModeSelectorUIManager : MonoBehaviour
     [SerializeField] private Button backToMainButton;
     [SerializeField] private Button singleModeButton;
     [SerializeField] private Button copoModeButton;
-    [Space]
-    [Header("Serialize Object")]
-    [SerializeField] private GameModeManager modeManager;
 
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("mode selection.");
         mainPanel.SetActive(false);
 
         backToMainButton.gameObject.SetActive(true);
@@ -25,8 +21,8 @@ public class GameModeSelectorUIManager : MonoBehaviour
         copoModeButton.gameObject.SetActive(true);
 
         ButtonSetUpHelper.SetUpButton(backToMainButton, BackToMainButtonIsClicked);
-        ButtonSetUpHelper.SetUpButton(singleModeButton, SingleModeButtonIsClicked);
-        ButtonSetUpHelper.SetUpButton(copoModeButton, CopoModeButtonIsClicked);
+        ButtonSetUpHelper.SetUpButton(singleModeButton, ModeButtonIsClicked, GameModes.SinglePlayer);
+        ButtonSetUpHelper.SetUpButton(copoModeButton, ModeButtonIsClicked, GameModes.CopoPlayer);
     }
 
     private void BackToMainButtonIsClicked()
@@ -35,17 +31,9 @@ public class GameModeSelectorUIManager : MonoBehaviour
         this.gameObject.SetActive(false);
     }
 
-    private void SingleModeButtonIsClicked()
+    private void ModeButtonIsClicked(GameModes selectedGameMode)
     {
-        modeManager.GameMode = GameModes.SinglePlayer;
-        Debug.Log($"mode selection.{modeManager.GameMode}");
-        SceneManagerScript.Instance.SceneLoading(ScenesEnum.GameScene);
-    }
-
-    private void CopoModeButtonIsClicked()
-    {
-        modeManager.GameMode = GameModes.CopoPlayer;
-        Debug.Log($"mode selection.{modeManager.GameMode}");
+        GameHandler.Mode = selectedGameMode;
         SceneManagerScript.Instance.SceneLoading(ScenesEnum.GameScene);
     }
 }
