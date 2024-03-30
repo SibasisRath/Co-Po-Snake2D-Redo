@@ -3,8 +3,9 @@ using TMPro;
 
 public class PlayerScore : MonoBehaviour
 {
-    private const int scoreMultipler = 1;
-    private const int scoreMultiplerWithPowerUp = 2;
+    private const int SCORE_MULTIPLIER = 1;
+    private const int SCORE_MULTIPLIER_WITH_POWER_UP = 2;
+    private const string PLAYER_SCORE_UI_TEXT = "Player Score\n";
     private int score;
     private TextMeshProUGUI playerScoreText;
 
@@ -26,19 +27,18 @@ public class PlayerScore : MonoBehaviour
         //according to the instruction.
         if (ScoreBoostPowerUpIsActivated && additionalScore > 0)
         {
-             additionalScore *= scoreMultiplerWithPowerUp;
+             additionalScore *= SCORE_MULTIPLIER_WITH_POWER_UP;
         }
         else
         {
-            additionalScore *= scoreMultipler;
+            additionalScore *= SCORE_MULTIPLIER;
         }
         score += additionalScore;
         UpdateUI();
-        Debug.Log(Score);
     }
 
     private void UpdateUI()
     {
-        PlayerScoreText.text = "Player Score\n" + score;
+        PlayerScoreText.text = PLAYER_SCORE_UI_TEXT + score;
     }
 }

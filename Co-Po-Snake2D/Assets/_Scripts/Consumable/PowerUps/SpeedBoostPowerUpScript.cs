@@ -1,12 +1,8 @@
 using System.Collections;
 using UnityEngine;
 
-public class SpeedBoostPowerUpScript : MonoBehaviour
+public class SpeedBoostPowerUpScript : PowerUpScript
 {
-    [SerializeField] private BoxCollider2D powerUpCollider;
-    [SerializeField] private SpriteRenderer spriteRenderer;
-    [SerializeField] private float effectiveTime; // If snake take this power up. Then this long it's effect will be present with the player. 
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         SnakeTimer snakeTimer = collision.gameObject.GetComponent<SnakeTimer>();
@@ -19,8 +15,7 @@ public class SpeedBoostPowerUpScript : MonoBehaviour
     private IEnumerator PowerUpEffects(SnakeTimer snakeTimer)
     {
         snakeTimer.IsSpeedBoostPowerUpActivated = true;
-        powerUpCollider.enabled = false;
-        spriteRenderer.enabled = false;
+        SettingOffPowerUpObject();
 
         yield return new WaitForSeconds(effectiveTime);
 

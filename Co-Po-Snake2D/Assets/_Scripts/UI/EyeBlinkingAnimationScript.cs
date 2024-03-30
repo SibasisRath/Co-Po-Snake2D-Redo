@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class EyeBlinkingAnimationScript : MonoBehaviour
 {
-    private const float minBlinkGap = 0.1f;
-    private const float maxBlinkGap = 0.5f;
+    private const float MINIMUM_BLINK_GAP = 0.1f;
+    private const float MAX_BLINK_GAP = 0.5f;
     [SerializeField] private GameObject leftEye;
     [SerializeField] private GameObject rightEye;
 
@@ -37,14 +37,14 @@ public class EyeBlinkingAnimationScript : MonoBehaviour
                 BlinkEyes();
 
                 // Wait for a short time for the blink animation to complete
-                yield return new WaitForSeconds(minBlinkGap);
+                yield return new WaitForSeconds(MINIMUM_BLINK_GAP);
 
                 // Stop blinking
                 isBlinking = false;
                 BlinkEyes();
 
                 // Wait for a random interval between blinks
-                float blinkInterval = Random.Range(minBlinkGap, maxBlinkGap);
+                float blinkInterval = Random.Range(MINIMUM_BLINK_GAP, MAX_BLINK_GAP);
                 yield return new WaitForSeconds(blinkInterval);
             }
 

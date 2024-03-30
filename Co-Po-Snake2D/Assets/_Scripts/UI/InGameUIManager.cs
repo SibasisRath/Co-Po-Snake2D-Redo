@@ -4,6 +4,11 @@ using TMPro;
 
 public class InGameUIManager : MonoBehaviour
 {
+    private const string PAUSE_TEXT = "Pause";
+    private const string GAME_OVER_TEXT = "GameOver";
+    private const string SELF_KILL_TEXT = " please do not kill yourself.";
+    private const string WINNER_TEXT = " Congratulation.";
+
     //[SerializeField] private GameHandler gameHandler;
     [Space]
     [SerializeField] private GameObject panel;
@@ -68,7 +73,7 @@ public class InGameUIManager : MonoBehaviour
         GameStateManager.GameState = GameStates.Pause;
         panel.SetActive(true);
         mainMessage.gameObject.SetActive(true);
-        mainMessage.text = "Pause";
+        mainMessage.text = PAUSE_TEXT;
         mainButton.gameObject.SetActive(true);
         restartButton.gameObject.SetActive(true);
         resumeButton.gameObject.SetActive(true);
@@ -78,16 +83,16 @@ public class InGameUIManager : MonoBehaviour
     {
         panel.SetActive(true);
         mainMessage.gameObject.SetActive(true);
-        mainMessage.text = "GameOver";
+        mainMessage.text = GAME_OVER_TEXT;
         description.gameObject.SetActive(true);
 
         if (GameHandler.GameResult.Item1)
         {
-            description.text = GameHandler.GameResult.Item2 + " please do not kill yourself.";
+            description.text = GameHandler.GameResult.Item2 + SELF_KILL_TEXT;
         }
         else
         {
-            description.text = GameHandler.GameResult.Item2 + " Congratulation.";
+            description.text = GameHandler.GameResult.Item2 + WINNER_TEXT;
         }
         mainButton.gameObject.SetActive(true);
         restartButton.gameObject.SetActive(true);

@@ -231,6 +231,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 505565409f3b1284da9a75f4a8059f75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  snakePlayer1Prefab: {fileID: 4908123805456723849, guid: 43008e69cc2033847a5d03e64238c2c4, type: 3}
+  snakePlayer2PreFab: {fileID: 6782982521193400840, guid: 02e26ff175ee33a4c8708d26e6292c8b, type: 3}
   scorePlayer1: {fileID: 6280513510700220697}
   scorePlayer2: {fileID: 1366220822321395212}
 --- !u!4 &117965676
@@ -403,6 +405,8 @@ GameObject:
   m_Component:
   - component: {fileID: 449956196}
   - component: {fileID: 449956197}
+  - component: {fileID: 449956199}
+  - component: {fileID: 449956198}
   m_Layer: 0
   m_Name: Consumables
   m_TagString: Untagged
@@ -437,12 +441,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e2deb21f5d76694c91692cb1c11ba11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnAreawidth: 200
-  spawnAreaHeight: 200
+--- !u!114 &449956198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 449956195}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0aaec71a576cd84da76480652198158, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   powerUpSpawnInterval: 10
+  speedBoostPowerUp: {fileID: -8033983381056085746, guid: bb3bdbdc1c4ee804dbea46dfc66da6e0, type: 3}
+  scoreBoostPowerUp: {fileID: -2809272599250539443, guid: a9f6b52008bf7d6408d56ead13714825, type: 3}
+  shieldPowerUp: {fileID: 388832439819057657, guid: 7e1e7f4d7aed5e842a8f88d8c1e8017f, type: 3}
+--- !u!114 &449956199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 449956195}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1eeec632f5e52b48b8b4ca54e37312e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   foodSpawnInterval: 5
-  powerUpTimeSinceLastSpawn: 0
-  foodTimeSinceLastSpawn: 0
+  massGainer1: {fileID: 7641137077380107687, guid: e61c458b95b8dc942bdea70ada822df0, type: 3}
+  massGainer2: {fileID: 4319097811795966680, guid: 8c44e8e80adc1aa4882fce357d4b182b, type: 3}
+  massBurner1: {fileID: 6042172291058188670, guid: c496ba8fbbfc4a74dba92f86debf403a, type: 3}
+  massBurner2: {fileID: 5801013874925194017, guid: 6faf5bef2aa8edb40b92daeddd4dc4e5, type: 3}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -535,61 +566,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &733290578
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 733290579}
-  - component: {fileID: 733290580}
-  m_Layer: 0
-  m_Name: GameAsset
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &733290579
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 733290578}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &733290580
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 733290578}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d3fccccbef4a1043a19b801be602954, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  massGainer1: {fileID: 1781800504542057442, guid: e61c458b95b8dc942bdea70ada822df0, type: 3}
-  massGainer2: {fileID: 5813022382959851848, guid: 8c44e8e80adc1aa4882fce357d4b182b, type: 3}
-  massBurner1: {fileID: 8989257129651794237, guid: c496ba8fbbfc4a74dba92f86debf403a, type: 3}
-  massBurner2: {fileID: 5634900292055611389, guid: 6faf5bef2aa8edb40b92daeddd4dc4e5, type: 3}
-  speedBoostPowerUp: {fileID: 5906301894368882587, guid: bb3bdbdc1c4ee804dbea46dfc66da6e0, type: 3}
-  scoreBoostPowerUp: {fileID: 3892406372449633685, guid: a9f6b52008bf7d6408d56ead13714825, type: 3}
-  shildPowerUp: {fileID: 5594043753951924843, guid: 7e1e7f4d7aed5e842a8f88d8c1e8017f, type: 3}
-  snakeHeadPlayer1: {fileID: 6177935483816634880, guid: 43008e69cc2033847a5d03e64238c2c4, type: 3}
-  snakeBodyPartPlayer1: {fileID: 2667957737560726680, guid: 0db364d950dc1934daad24d2d8ee1413, type: 3}
-  snakeHeadPlayer2: {fileID: 5728782847198859137, guid: 02e26ff175ee33a4c8708d26e6292c8b, type: 3}
-  snakeBodyPartPlayer2: {fileID: 4866182878944488847, guid: 03b0236b0d21ad04b89f25763d0bc6c7, type: 3}
 --- !u!1 &761650662
 GameObject:
   m_ObjectHideFlags: 0
@@ -2651,7 +2627,6 @@ SceneRoots:
   m_Roots:
   - {fileID: 519420032}
   - {fileID: 102315464}
-  - {fileID: 733290579}
   - {fileID: 1405308144}
   - {fileID: 555984384343215277}
   - {fileID: 394277308}

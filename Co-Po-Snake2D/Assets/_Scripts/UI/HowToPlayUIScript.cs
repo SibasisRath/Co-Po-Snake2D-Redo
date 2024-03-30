@@ -50,15 +50,15 @@ public class HowToPlayUIScript : MonoBehaviour
         {
             counter = instructions.Count-1;
         }
-        for (int i = 0; i < instructions.Count; i++)
+        for (int counterIndex = 0; counterIndex < instructions.Count; counterIndex++)
         {
-            if (i == counter)
+            if (counterIndex == counter)
             {
-                instructions[i].SetActive(true);
+                instructions[counterIndex].SetActive(true);
             }
             else
             {
-                instructions[i].SetActive(false);
+                instructions[counterIndex].SetActive(false);
             }
         }
         

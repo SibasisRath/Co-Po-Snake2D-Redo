@@ -1,12 +1,13 @@
 using System.Collections;
 using UnityEngine;
 
-public class FoodScript : MonoBehaviour
+public class FoodScript : MonoBehaviour, IConsumable
 {
-    //private ConsumableStates consumableState;
-    [SerializeField] private int score;
-    [SerializeField] private int bodyGrow;
+    [SerializeField] protected int score;
+    [SerializeField] protected int bodyUnitsToChange;
     [SerializeField] private float foodLifeTime = 7f;
+
+    private Snake snake;
 
     private void Start()
     {
@@ -15,19 +16,18 @@ public class FoodScript : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        PlayerScore playerScore = collision.gameObject.GetComponent<PlayerScore>();
-        if(playerScore != null)
+        snake = collision.GetComponent<Snake>();
+        if(snake != null)
         {
-            playerScore.UpdateScore(score);
-            collision.gameObject.GetComponent<Snake>().AdditionalSnakeBodySize = bodyGrow;
-            Destroy(gameObject);
+            Consumed(snake);
         }
     }
-
 
     private IEnumerator FoodLifeTime()
     {
         yield return new WaitForSeconds(foodLifeTime);
         Destroy(gameObject);
     }
+
+    public virtual void Consumed(Snake snake){}
 }

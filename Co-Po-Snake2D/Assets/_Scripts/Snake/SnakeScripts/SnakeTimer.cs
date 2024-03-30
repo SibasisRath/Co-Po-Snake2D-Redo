@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class SnakeTimer : MonoBehaviour
@@ -10,7 +11,6 @@ public class SnakeTimer : MonoBehaviour
     private bool isSpeedBoostPowerUpActivated;
 
     public bool CanMove { get => canMove; set => canMove = value; }
-    public float TimeCounter { get => timeCounter; set => timeCounter = value; }
     public float MaxTime { get => maxTime; set => maxTime = value; }
     
     public bool IsSpeedBoostPowerUpActivated { get => isSpeedBoostPowerUpActivated; set => isSpeedBoostPowerUpActivated = value; }
@@ -21,27 +21,30 @@ public class SnakeTimer : MonoBehaviour
     void Start()
     {
         IsSpeedBoostPowerUpActivated = false;
-        TimeCounter = MaxTime;
+        timeCounter = MaxTime;
         CanMove = true;
+        StartCoroutine(UpdateCoroutine());
     }
 
-    // Update is called once per frame
-    void Update()
+    private IEnumerator UpdateCoroutine()
     {
-        
-        if (IsSpeedBoostPowerUpActivated)
+        while (true)
         {
-            TimeCounter += Time.deltaTime * PowerUpSpeedSpeed;
-        }
-        else
-        {
-            TimeCounter += Time.deltaTime * baseSpeed;
-        }
+            if (IsSpeedBoostPowerUpActivated)
+            {
+                timeCounter += Time.deltaTime * PowerUpSpeedSpeed;
+            }
+            else
+            {
+                timeCounter += Time.deltaTime * baseSpeed;
+            }
 
-        if (TimeCounter > MaxTime)
-        {
-            CanMove = true;
-            TimeCounter -= MaxTime;
+            if (timeCounter > MaxTime)
+            {
+                CanMove = true;
+                timeCounter -= MaxTime;
+            }
+            yield return null; // Yield to the next frame
         }
     }
 }

@@ -1,8 +1,8 @@
+using System;
 using UnityEngine;
 
-public class GameHandler : MonoBehaviour
+public class GameHandler : GenericSingletonScript<GameHandler>
 {
-    private static GameHandler instance;
     private static GameModes mode;
 
     private int playerOneSize = 0;
@@ -13,21 +13,7 @@ public class GameHandler : MonoBehaviour
 
     public static GameModes Mode { get => mode; set => mode = value; }
     public static (bool, PlayerEnum) GameResult { get => gameResult; set => gameResult = value; }
-    public static GameHandler Instance { get => instance; set => instance = value; }
     public int CurrentMinimumSize { get => currentMinimumSize; private set => currentMinimumSize = value; }
-
-    private void Awake()
-    {
-        DontDestroyOnLoad(gameObject);
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
 
     public void UpdateMinimumSnakeSize(int size, PlayerEnum player)
     {

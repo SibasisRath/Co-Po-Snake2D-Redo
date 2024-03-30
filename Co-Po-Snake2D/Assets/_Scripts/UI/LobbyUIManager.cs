@@ -32,7 +32,6 @@ public class LobbyUIManager : MonoBehaviour
 
     public void QuitButtonClicked()
     {
-        Debug.Log("Application is closing.");
         Application.Quit();
     }
 

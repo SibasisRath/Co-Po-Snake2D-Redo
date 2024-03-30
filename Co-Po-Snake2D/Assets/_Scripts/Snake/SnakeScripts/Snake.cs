@@ -3,8 +3,13 @@ using UnityEngine;
 
 public class Snake : MonoBehaviour
 {
+    private const string RIGHT_BORDER = "RightBorder";
+    private const string UP_BORDER = "UpBorder";
+    private const string LEFT_BORDER = "LeftBorder";
+    private const string DOWN_BORDER = "DownBorder";
+
     [SerializeField] private PlayerEnum player;
-    [SerializeField] private InGameSprites snakeBody;
+    [SerializeField] private GameObject snakeBody;
 
     [SerializeField] private SnakeTimer timer; // Reference to timer
     [SerializeField] private Vector2Int snakeGridPosition; //Snake position on grid
@@ -15,15 +20,12 @@ public class Snake : MonoBehaviour
     [SerializeField] private int gridShift = 195;
 
     private int snakeBodySize;
-    private int additionalSnakeBodySize;
     private List<Vector2Int> snakeMovePositionLIst; // store the positions of the snake body parts
     private List<SnakeBodyPart> snakeBodyPartsList;
 
-    
-
     public Directions Direction { get => direction; set => direction = value; }
     public PlayerEnum Player { get => player;}
-    public InGameSprites SnakeBody { get => snakeBody; }
+    public GameObject SnakeBody { get => snakeBody; }
     public Vector2Int SnakeGridPosition { get => snakeGridPosition; set => snakeGridPosition = value; }
     public int SnakeBodySize
     {
@@ -32,16 +34,6 @@ public class Snake : MonoBehaviour
         {
             snakeBodySize = value;
             GameHandler.Instance.UpdateMinimumSnakeSize(snakeBodySize, player);
-        }
-    }
-    public int AdditionalSnakeBodySize 
-    {
-        get => additionalSnakeBodySize;
-        set
-        {
-            additionalSnakeBodySize = value;
-            SnakeBodySize += additionalSnakeBodySize;
-            CreateSnakeBody(additionalSnakeBodySize);
         }
     }
 
@@ -60,32 +52,44 @@ public class Snake : MonoBehaviour
     {
         if (GameStateManager.GameState == GameStates.Running)
         {
-            HandelDirection();
+            HandleDirection();
             HandleMovement();
         }
     }
 
-    private void HandelDirection()
+    private void HandleDirection()
     {
-        if (direction == Directions.Up && gridMoveDirection.y != -gridUnit)
+        Vector2Int currentGridMoveDirection = gridMoveDirection;
+        int newX = 0;
+        int newY = 0;
+
+        switch (direction)
         {
-            gridMoveDirection.y = gridUnit;
-            gridMoveDirection.x = 0;
+            case Directions.Up:
+                newY = gridUnit;
+                break;
+            case Directions.Down:
+                newY = -gridUnit;
+                break;
+            case Directions.Left:
+                newX = -gridUnit;
+                break;
+            case Directions.Right:
+                newX = gridUnit;
+                break;
+            default:
+                break;
         }
-        else if (direction == Directions.Down && gridMoveDirection.y != gridUnit)
+
+        SetGridMoveDirection(newX, newY);
+    }
+
+    private void SetGridMoveDirection(int newX, int newY)
+    {
+        if (gridMoveDirection.x != newX || gridMoveDirection.y != newY)
         {
-            gridMoveDirection.y = -gridUnit;
-            gridMoveDirection.x = 0;
-        }
-        else if (direction == Directions.Left && gridMoveDirection.x != gridUnit)
-        {
-            gridMoveDirection.x = -gridUnit;
-            gridMoveDirection.y = 0;
-        }
-        else if (direction == Directions.Right && gridMoveDirection.x != -gridUnit)
-        {
-            gridMoveDirection.x = gridUnit;
-            gridMoveDirection.y = 0;
+            gridMoveDirection.x = newX;
+            gridMoveDirection.y = newY;
         }
     }
 
@@ -96,7 +100,6 @@ public class Snake : MonoBehaviour
             timer.CanMove = false;
             snakeMovePositionLIst.Insert(0, SnakeGridPosition);  //This will keep adding snakeHead's new grid postions at the beginning.
             SnakeGridPosition += gridMoveDirection; // this is for changing direction.
-            
         }
 
         if (snakeMovePositionLIst.Count >= SnakeBodySize + 10)
@@ -106,28 +109,31 @@ public class Snake : MonoBehaviour
 
         transform.position = new Vector3(SnakeGridPosition.x, SnakeGridPosition.y);
         transform.eulerAngles = new Vector3(0,0,HandleRotation(gridMoveDirection) - 90f);
-        UpdateSnakeBody();
+        UpdateSnakeBodyPartsPositions();
     }
 
-    private void CreateSnakeBody(int extraBodyParts)
+    public void IncreaseBody(int numberOfBodyParts)
     {
-        bool isGrowing = (extraBodyParts > 0) ? true : false;
+        SnakeBodySize += numberOfBodyParts;
 
-        for (int i = 0; i < Mathf.Abs(extraBodyParts); i++)
+        for (int i = 0; i < Mathf.Abs(numberOfBodyParts); i++)
         {
-            if (isGrowing)
-            {
-                SnakeBodyPartsList.Add(new SnakeBodyPart(SnakeBodyPartsList.Count, this));
-            }
-            else
-            {
-                SnakeBodyPartsList[SnakeBodyPartsList.Count - 1].DestroyGameObject();           
-                SnakeBodyPartsList.RemoveAt(SnakeBodyPartsList.Count -1);
-            }   
-        }   
+            SnakeBodyPartsList.Add(new SnakeBodyPart(SnakeBodyPartsList.Count, this));
+        }
     }
 
-    private void UpdateSnakeBody()
+    public void DecreaseBody(int numberOfBodyParts)
+    {
+        snakeBodySize -= numberOfBodyParts;
+
+        for (int i = 0; i < Mathf.Abs(numberOfBodyParts); i++)
+        {
+            SnakeBodyPartsList[SnakeBodyPartsList.Count - 1].DestroyGameObject();
+            SnakeBodyPartsList.RemoveAt(SnakeBodyPartsList.Count - 1);
+        }
+    }
+
+    private void UpdateSnakeBodyPartsPositions()
     {
         for (int i = 0; i < SnakeBodyPartsList.Count; i++)
         {
@@ -154,19 +160,19 @@ public class Snake : MonoBehaviour
     private void ScreenWrapping(Collider2D collision)
     {
         //Snake Screen Wrapping feature
-        if (collision.gameObject.CompareTag("RightBorder"))
+        if (collision.gameObject.CompareTag(RIGHT_BORDER))
         {
             snakeGridPosition.x -= gridShift;
         }
-        else if (collision.gameObject.CompareTag("UpBorder"))
+        else if (collision.gameObject.CompareTag(UP_BORDER))
         {
             snakeGridPosition.y -= gridShift;
         }
-        else if (collision.gameObject.CompareTag("LeftBorder"))
+        else if (collision.gameObject.CompareTag(LEFT_BORDER))
         {
             snakeGridPosition.x += gridShift;
         }
-        else if (collision.gameObject.CompareTag("DownBorder"))
+        else if (collision.gameObject.CompareTag(DOWN_BORDER))
         {
             snakeGridPosition.y += gridShift;
         }

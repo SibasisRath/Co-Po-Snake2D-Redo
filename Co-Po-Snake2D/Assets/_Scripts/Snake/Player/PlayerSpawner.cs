@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class PlayerSpawner : MonoBehaviour
 {
+    [SerializeField] private Snake snakePlayer1Prefab;
+    [SerializeField] private Snake snakePlayer2PreFab;
+
     private GameObject snakePlayer1;
     private GameObject snakePlayer2;
 
@@ -11,8 +14,8 @@ public class PlayerSpawner : MonoBehaviour
 
     private void Awake()
     {
-        snakePlayer1 = GameAssetManager.Instance.GetSnakeHeadPart(PlayerEnum.Player1);
-        snakePlayer2 = GameAssetManager.Instance.GetSnakeHeadPart(PlayerEnum.Player2);
+        snakePlayer1 = Instantiate(snakePlayer1Prefab.gameObject);
+        snakePlayer2 = Instantiate(snakePlayer2PreFab.gameObject);
 
         snakePlayer1.transform.SetParent(transform);
         snakePlayer2.transform.SetParent(transform);

@@ -120,8 +120,32 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Food
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5503876710584709571, guid: d131ec7eecb058e4bafa64e65c666ebb, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8135431124835543252, guid: d131ec7eecb058e4bafa64e65c666ebb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6042172291058188670}
   m_SourcePrefab: {fileID: 100100000, guid: d131ec7eecb058e4bafa64e65c666ebb, type: 3}
+--- !u!1 &8989257129651794237 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8135431124835543252, guid: d131ec7eecb058e4bafa64e65c666ebb, type: 3}
+  m_PrefabInstance: {fileID: 875556752642300393}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6042172291058188670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8989257129651794237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e6f9eacbfc303442aacda9395288f06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  score: -10
+  bodyUnitsToChange: 1
+  foodLifeTime: 7

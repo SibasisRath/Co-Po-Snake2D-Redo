@@ -74,8 +74,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6408662770222860749, guid: 2ac90001f19683643b21b58724364947, type: 3}
       propertyPath: snakeBody
-      value: 10
-      objectReference: {fileID: 0}
+      value: 
+      objectReference: {fileID: 4866182878944488847, guid: 03b0236b0d21ad04b89f25763d0bc6c7, type: 3}
     - target: {fileID: 6408662770222860749, guid: 2ac90001f19683643b21b58724364947, type: 3}
       propertyPath: playerScore
       value: 
@@ -151,14 +151,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   snake: {fileID: 6782982521193400840}
-  player1UpKey: 119
-  player1LeftKey: 97
-  player1DownKey: 115
-  player1RightKey: 100
-  player2UpKey: 273
-  player2LeftKey: 276
-  player2DownKey: 274
-  player2RightKey: 275
 --- !u!114 &6782982521193400840 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6408662770222860749, guid: 2ac90001f19683643b21b58724364947, type: 3}
